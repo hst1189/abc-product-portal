@@ -202,63 +202,60 @@
             <div class="section-header" data-aos="fade-up">
                 <h2 class="section-title">快速部署</h2>
                 <p class="section-subtitle">选择适合您的部署方式</p>
-            </div>
-            <div class="deployment-grid">
-                <div class="deployment-card" data-aos="fade-up" data-aos-delay="200">
+            </div>            <!-- Docker deployment row -->
+            <div class="deployment-grid-docker">
+                <div class="deployment-card deployment-card-wide" data-aos="fade-up" data-aos-delay="200">
                     <div class="deployment-icon">
                         <img src="./assets/logos/docker-icon.svg" alt="Docker" class="deployment-logo">
                     </div>
                     <h3 class="deployment-title">Docker 部署</h3>
-                    <p class="deployment-description">使用Docker容器化部署，简单快捷，适合有服务器的用户。</p>
-                    <div class="deployment-code">
-                        <code>docker run -p 3000:3000 libretv/libretv</code>
+                    <p class="deployment-description">使用Docker容器化部署，简单快捷，适合有服务器的用户。</p>                    <div class="deployment-code">
+                        <code>docker run -d \<br>  --name libretv \<br>  --restart unless-stopped \<br>  -p 8899:8080 \<br>  -e PASSWORD=your_password \<br>  bestzwei/libretv:latest</code>
                     </div>
-                    <a href="https://github.com/LibreSpark/LibreTV#docker-部署" class="deployment-link" target="_blank">
-                        查看文档 →
-                    </a>
                 </div>
-                <div class="deployment-card" data-aos="fade-up" data-aos-delay="400">
+                <div class="deployment-card deployment-card-wide" data-aos="fade-up" data-aos-delay="400">
+                    <div class="deployment-icon">
+                        <img src="./assets/logos/docker-icon.svg" alt="Docker Compose" class="deployment-logo">
+                    </div>
+                    <h3 class="deployment-title">Docker Compose 部署</h3>
+                    <p class="deployment-description">使用Docker Compose一键部署，配置更简单，管理更方便。</p>                    <div class="deployment-code">
+                        <code>services:<br>  libretv:<br>    image: bestzwei/libretv:latest<br>    container_name: libretv<br>    ports:<br>      - "8899:8080"<br>    environment:<br>      - PASSWORD=${PASSWORD:-your_password}<br>    restart: unless-stopped</code>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Other deployment options -->
+            <div class="deployment-grid">
+                <div class="deployment-card" data-aos="fade-up" data-aos-delay="600">
                     <div class="deployment-icon">
                         <img src="./assets/logos/vercel-icon.svg" alt="Vercel" class="deployment-logo">
                     </div>
                     <h3 class="deployment-title">Vercel 部署</h3>
-                    <p class="deployment-description">一键部署到Vercel，免费托管，全球CDN加速。</p>
-                    <div class="deployment-button">
+                    <p class="deployment-description">一键部署到Vercel，免费托管，全球CDN加速。</p>                    <div class="deployment-button">
                         <a href="https://vercel.com/new/clone?repository-url=https://github.com/LibreSpark/LibreTV" class="btn btn-vercel" target="_blank">
                             Deploy to Vercel
                         </a>
                     </div>
-                    <a href="https://github.com/LibreSpark/LibreTV#vercel-部署" class="deployment-link" target="_blank">
-                        查看文档 →
-                    </a>
                 </div>
-                <div class="deployment-card" data-aos="fade-up" data-aos-delay="600">
+                <div class="deployment-card" data-aos="fade-up" data-aos-delay="800">
                     <div class="deployment-icon">
                         <img src="./assets/logos/netlify-icon.svg" alt="Netlify" class="deployment-logo">
                     </div>
                     <h3 class="deployment-title">Netlify 部署</h3>
-                    <p class="deployment-description">部署到Netlify，支持边缘函数，性能优异。</p>
-                    <div class="deployment-button">
+                    <p class="deployment-description">部署到Netlify，支持边缘函数，性能优异。</p>                    <div class="deployment-button">
                         <a href="https://app.netlify.com/start/deploy?repository=https://github.com/LibreSpark/LibreTV" class="btn btn-netlify" target="_blank">
                             Deploy to Netlify
                         </a>
                     </div>
-                    <a href="https://github.com/LibreSpark/LibreTV#netlify-部署" class="deployment-link" target="_blank">
-                        查看文档 →
-                    </a>
                 </div>
-                <div class="deployment-card" data-aos="fade-up" data-aos-delay="800">
+                <div class="deployment-card" data-aos="fade-up" data-aos-delay="1000">
                     <div class="deployment-icon">
                         <img src="./assets/logos/cloudflare-icon.svg" alt="Cloudflare" class="deployment-logo">
                     </div>
                     <h3 class="deployment-title">Cloudflare 部署</h3>
-                    <p class="deployment-description">使用Cloudflare Pages部署，享受强大的边缘计算能力。</p>
-                    <div class="deployment-code">
+                    <p class="deployment-description">使用Cloudflare Pages部署，享受强大的边缘计算能力。</p>                    <div class="deployment-code">
                         <code>wrangler pages deploy dist</code>
                     </div>
-                    <a href="https://github.com/LibreSpark/LibreTV#cloudflare-部署" class="deployment-link" target="_blank">
-                        查看文档 →
-                    </a>
                 </div>
             </div>
         </div>
@@ -414,14 +411,12 @@
                         <li><a href="#about">关于我们</a></li>
                         <li><a href="https://libretv.is-an.org/" target="_blank">开始使用</a></li>
                     </ul>
-                </div>
-                <div class="footer-section">
+                </div>                <div class="footer-section">
                     <h3 class="footer-title">部署选项</h3>
                     <ul class="footer-links">
-                        <li><a href="https://github.com/LibreSpark/LibreTV#docker-部署" target="_blank">Docker 部署</a></li>
-                        <li><a href="https://github.com/LibreSpark/LibreTV#vercel-部署" target="_blank">Vercel 部署</a></li>
-                        <li><a href="https://github.com/LibreSpark/LibreTV#netlify-部署" target="_blank">Netlify 部署</a></li>
-                        <li><a href="https://github.com/LibreSpark/LibreTV#cloudflare-部署" target="_blank">Cloudflare 部署</a></li>
+                        <li><a href="https://vercel.com/new/clone?repository-url=https://github.com/LibreSpark/LibreTV" target="_blank">Vercel 部署</a></li>
+                        <li><a href="https://app.netlify.com/start/deploy?repository=https://github.com/LibreSpark/LibreTV" target="_blank">Netlify 部署</a></li>
+                        <li><a href="https://hub.docker.com/r/bestzwei/libretv" target="_blank">Docker 镜像</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
