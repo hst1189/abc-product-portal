@@ -42,8 +42,7 @@
             }
         }
     </script>
-    
-    <style>
+      <style>
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
@@ -70,6 +69,40 @@
             50% { transform: translateY(-10px); }
         }
         
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        @keyframes fadeInLeft {
+            from { 
+                opacity: 0; 
+                transform: translateX(-50px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateX(0); 
+            }
+        }
+        
+        @keyframes fadeInRight {
+            from { 
+                opacity: 0; 
+                transform: translateX(50px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateX(0); 
+            }
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 53%, 80%, 100% { transform: translate3d(0,0,0); }
+            40%, 43% { transform: translate3d(0,-30px,0); }
+            70% { transform: translate3d(0,-15px,0); }
+            90% { transform: translate3d(0,-4px,0); }
+        }
+        
         .cyber-gradient {
             background: linear-gradient(135deg, #0f1622 0%, #192231 100%);
         }
@@ -78,6 +111,7 @@
             background: linear-gradient(135deg, rgba(18, 27, 41, 0.8) 0%, rgba(28, 41, 57, 0.8) 100%);
             border: 1px solid rgba(0, 204, 255, 0.2);
             backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
         }
         
         .cyber-border {
@@ -96,16 +130,32 @@
                 radial-gradient(circle at 25px 25px, rgba(0, 204, 255, 0.1) 2px, transparent 2px),
                 radial-gradient(circle at 75px 75px, rgba(255, 60, 120, 0.1) 2px, transparent 2px);
             background-size: 100px 100px, 100px 100px;
+            animation: float 10s ease-in-out infinite;
+        }
+        
+        .feature-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
         }
         
         .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 204, 255, 0.3);
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 204, 255, 0.3);
+            border-color: rgba(0, 204, 255, 0.5);
+        }
+        
+        .feature-card .emoji {
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover .emoji {
+            transform: scale(1.2) rotate(10deg);
         }
         
         .deploy-button {
             position: relative;
             overflow: hidden;
+            transition: all 0.3s ease;
         }
         
         .deploy-button::before {
@@ -122,22 +172,136 @@
         .deploy-button:hover::before {
             left: 100%;
         }
+        
+        .deploy-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .nav-link {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #00ccff, #ff3c78);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .hero-button {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        
+        .hero-button:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+        
+        .scroll-indicator {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #00ccff, #ff3c78);
+            z-index: 100;
+            transition: width 0.3s ease;
+        }
+        
+        .floating-shapes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+        }
+        
+        .floating-shape {
+            position: absolute;
+            background: rgba(0, 204, 255, 0.1);
+            border-radius: 50%;
+            animation: floatShape 20s linear infinite;
+        }
+        
+        @keyframes floatShape {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        .typing-effect {
+            border-right: 2px solid #00ccff;
+            animation: blink 1s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 50% { border-color: #00ccff; }
+            51%, 100% { border-color: transparent; }
+        }
     </style>
 </head>
 <body class="cyber-gradient text-white min-h-screen">
+    <!-- Scroll Progress Indicator -->
+    <div class="scroll-indicator" id="scrollProgress"></div>
+    
+    <!-- Floating Shapes -->
+    <div class="floating-shapes">
+        <div class="floating-shape" style="left: 10%; width: 20px; height: 20px; animation-delay: 0s;"></div>
+        <div class="floating-shape" style="left: 20%; width: 15px; height: 15px; animation-delay: 2s;"></div>
+        <div class="floating-shape" style="left: 30%; width: 25px; height: 25px; animation-delay: 4s;"></div>
+        <div class="floating-shape" style="left: 40%; width: 18px; height: 18px; animation-delay: 6s;"></div>
+        <div class="floating-shape" style="left: 50%; width: 22px; height: 22px; animation-delay: 8s;"></div>
+        <div class="floating-shape" style="left: 60%; width: 16px; height: 16px; animation-delay: 10s;"></div>
+        <div class="floating-shape" style="left: 70%; width: 24px; height: 24px; animation-delay: 12s;"></div>
+        <div class="floating-shape" style="left: 80%; width: 19px; height: 19px; animation-delay: 14s;"></div>
+        <div class="floating-shape" style="left: 90%; width: 21px; height: 21px; animation-delay: 16s;"></div>
+    </div>
     <!-- Navigation -->
     <nav class="fixed top-0 w-full z-50 bg-black/50 backdrop-blur-lg border-b border-cyber-blue/20">
-        <div class="container mx-auto px-6 py-4">
-            <div class="flex items-center justify-between">
+        <div class="container mx-auto px-6 py-4">            <div class="flex items-center justify-between">
                 <div class="flex items-center space-x-3">
-                    <img src="./assets/logo.png" alt="LibreTV Logo" class="w-8 h-8 animate-float">
                     <span class="text-xl font-bold cyber-text-gradient">LibreTV</span>
-                </div>
-                <div class="hidden md:flex items-center space-x-8">
-                    <a href="#features" class="hover:text-cyber-blue transition-colors">功能特色</a>
-                    <a href="#deploy" class="hover:text-cyber-blue transition-colors">快速部署</a>
-                    <a href="#docs" class="hover:text-cyber-blue transition-colors">文档</a>
-                    <a href="https://github.com/LibreSpark/LibreTV" target="_blank" class="hover:text-cyber-blue transition-colors">GitHub</a>
+                </div>                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#features" class="nav-link hover:text-cyber-blue transition-colors">功能特色</a>
+                    <a href="#deploy" class="nav-link hover:text-cyber-blue transition-colors">快速部署</a>
+                    <a href="#docs" class="nav-link hover:text-cyber-blue transition-colors">文档</a>
+                    <a href="https://github.com/LibreSpark/LibreTV" target="_blank" class="nav-link hover:text-cyber-blue transition-colors">GitHub</a>
                 </div>
                 <button id="menuBtn" class="md:hidden">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -168,14 +332,13 @@
                 <p class="text-lg text-gray-400 mb-12 max-w-2xl mx-auto">
                     免费的在线视频搜索与观看平台，无需注册，即开即用<br>
                     支持多种设备访问，轻量级设计，开源免费
-                </p>
-                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                </p>                <div class="flex flex-col sm:flex-row gap-4 justify-center">
                     <a href="https://libretv.is-an.org" target="_blank" 
-                       class="bg-cyber-blue hover:bg-blue-600 text-black font-bold py-4 px-8 rounded-lg transition-all duration-300 transform hover:scale-105">
+                       class="hero-button bg-cyber-blue hover:bg-blue-600 text-black font-bold py-4 px-8 rounded-lg transition-all duration-300 transform hover:scale-105 relative z-10">
                         🚀 立即体验
                     </a>
                     <a href="https://github.com/LibreSpark/LibreTV" target="_blank" 
-                       class="border-2 border-cyber-blue hover:bg-cyber-blue hover:text-black text-cyber-blue font-bold py-4 px-8 rounded-lg transition-all duration-300">
+                       class="hero-button border-2 border-cyber-blue hover:bg-cyber-blue hover:text-black text-cyber-blue font-bold py-4 px-8 rounded-lg transition-all duration-300 relative z-10">
                         ⭐ GitHub
                     </a>
                 </div>
@@ -186,35 +349,34 @@
     <!-- Features Section -->
     <section id="features" class="py-20 bg-black/30">
         <div class="container mx-auto px-6">
-            <h2 class="text-4xl font-bold text-center mb-16 cyber-text-gradient">功能特色</h2>
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <h2 class="text-4xl font-bold text-center mb-16 cyber-text-gradient">功能特色</h2>            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <div class="cyber-card rounded-lg p-6 feature-card transition-all duration-300">
-                    <div class="text-cyber-blue text-4xl mb-4">🔍</div>
+                    <div class="text-cyber-blue text-4xl mb-4 emoji">🔍</div>
                     <h3 class="text-xl font-bold mb-4">多源视频搜索</h3>
                     <p class="text-gray-300">聚合多个视频源，提供丰富的内容搜索结果，满足不同观影需求</p>
                 </div>
                 <div class="cyber-card rounded-lg p-6 feature-card transition-all duration-300">
-                    <div class="text-cyber-blue text-4xl mb-4">📱</div>
+                    <div class="text-cyber-blue text-4xl mb-4 emoji">📱</div>
                     <h3 class="text-xl font-bold mb-4">响应式设计</h3>
                     <p class="text-gray-300">完美适配手机、平板、电脑等各种设备，随时随地享受观影体验</p>
                 </div>
                 <div class="cyber-card rounded-lg p-6 feature-card transition-all duration-300">
-                    <div class="text-cyber-blue text-4xl mb-4">🔒</div>
+                    <div class="text-cyber-blue text-4xl mb-4 emoji">🔒</div>
                     <h3 class="text-xl font-bold mb-4">密码保护</h3>
                     <p class="text-gray-300">支持密码保护功能，保障个人隐私安全，避免未授权访问</p>
                 </div>
                 <div class="cyber-card rounded-lg p-6 feature-card transition-all duration-300">
-                    <div class="text-cyber-blue text-4xl mb-4">⚡</div>
+                    <div class="text-cyber-blue text-4xl mb-4 emoji">⚡</div>
                     <h3 class="text-xl font-bold mb-4">轻量快速</h3>
                     <p class="text-gray-300">纯前端技术栈，加载速度快，占用资源少，流畅的使用体验</p>
                 </div>
                 <div class="cyber-card rounded-lg p-6 feature-card transition-all duration-300">
-                    <div class="text-cyber-blue text-4xl mb-4">🎨</div>
+                    <div class="text-cyber-blue text-4xl mb-4 emoji">🎨</div>
                     <h3 class="text-xl font-bold mb-4">赛博朋克风格</h3>
                     <p class="text-gray-300">独特的赛博朋克界面设计，霓虹配色，带来科幻般的视觉体验</p>
                 </div>
                 <div class="cyber-card rounded-lg p-6 feature-card transition-all duration-300">
-                    <div class="text-cyber-blue text-4xl mb-4">🔧</div>
+                    <div class="text-cyber-blue text-4xl mb-4 emoji">🔧</div>
                     <h3 class="text-xl font-bold mb-4">自定义配置</h3>
                     <p class="text-gray-300">支持自定义API接口，个性化设置，打造专属的观影平台</p>
                 </div>
@@ -343,38 +505,28 @@
                 </div>
             </div>
         </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="py-12 border-t border-cyber-blue/20">
-        <div class="container mx-auto px-6">
+    </section>    <!-- Footer -->
+    <footer class="py-6 border-t border-cyber-blue/20">        <div class="container mx-auto px-6">
             <div class="flex flex-col md:flex-row justify-between items-center">
                 <div class="flex items-center space-x-3 mb-4 md:mb-0">
-                    <img src="./assets/logo.png" alt="LibreTV Logo" class="w-8 h-8">
                     <span class="text-xl font-bold cyber-text-gradient">LibreTV</span>
-                    <span class="text-gray-400">v1.1.0</span>
                 </div>
-                <div class="flex space-x-6">
-                    <a href="https://github.com/LibreSpark/LibreTV" target="_blank" class="text-gray-400 hover:text-cyber-blue transition-colors">
+                <div class="flex items-center space-x-6">
+                    <span class="text-sm text-gray-400">&copy; 2024 LibreSpark Team</span>
+                    <a href="https://github.com/LibreSpark/LibreTV" target="_blank" class="text-gray-400 hover:text-cyber-blue transition-all duration-300 transform hover:scale-110">
                         <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
                         </svg>
                     </a>
-                    <a href="mailto:troll@pissmail.com" class="text-gray-400 hover:text-cyber-blue transition-colors">
+                    <a href="mailto:troll@pissmail.com" class="text-gray-400 hover:text-cyber-blue transition-all duration-300 transform hover:scale-110">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                         </svg>
                     </a>
                 </div>
             </div>
-            <div class="mt-8 pt-8 border-t border-cyber-blue/10 text-center text-gray-400">
-                <p>&copy; 2024 LibreSpark Team. Licensed under Apache-2.0. 本项目仅供学习和个人使用。</p>
-                <p class="mt-2">基于 <a href="https://github.com/bestK/tv" target="_blank" class="text-cyber-blue hover:underline">bestK/tv</a> 重构与增强</p>
-            </div>
         </div>
-    </footer>
-
-    <script>
+    </footer>    <script>
         // Mobile menu toggle
         const menuBtn = document.getElementById('menuBtn');
         const mobileMenu = document.getElementById('mobileMenu');
@@ -404,17 +556,69 @@
             });
         });
         
-        // Scroll animations
+        // Scroll progress indicator
+        function updateScrollProgress() {
+            const scrollProgress = document.getElementById('scrollProgress');
+            const scrollTop = window.pageYOffset;
+            const docHeight = document.body.scrollHeight - window.innerHeight;
+            const scrollPercent = (scrollTop / docHeight) * 100;
+            scrollProgress.style.width = scrollPercent + '%';
+        }
+        
+        window.addEventListener('scroll', updateScrollProgress);
+        
+        // Parallax effect for hero section
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const heroSection = document.querySelector('.hero-pattern');
+            if (heroSection) {
+                heroSection.style.transform = `translateY(${scrolled * 0.5}px)`;
+            }
+        });
+        
+        // Typing effect for hero text
+        function typeText(element, text, speed = 100) {
+            element.innerHTML = '';
+            element.classList.add('typing-effect');
+            let i = 0;
+            
+            function type() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                } else {
+                    element.classList.remove('typing-effect');
+                }
+            }
+            
+            type();
+        }
+        
+        // Initialize typing effect when page loads
+        window.addEventListener('load', () => {
+            const heroTitle = document.querySelector('h1');
+            if (heroTitle) {
+                const originalText = heroTitle.textContent;
+                setTimeout(() => {
+                    typeText(heroTitle, originalText, 150);
+                }, 1000);
+            }
+        });
+        
+        // Scroll animations with stagger effect
         const observerOptions = {
             threshold: 0.1,
             rootMargin: '0px 0px -50px 0px'
         };
         
         const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
+            entries.forEach((entry, index) => {
                 if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
+                    setTimeout(() => {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }, index * 100);
                 }
             });
         }, observerOptions);
@@ -425,6 +629,89 @@
             el.style.transform = 'translateY(20px)';
             el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
             observer.observe(el);
+        });
+        
+        // Add click ripple effect to buttons
+        function createRipple(event) {
+            const button = event.currentTarget;
+            const ripple = document.createElement('span');
+            const rect = button.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            const x = event.clientX - rect.left - size / 2;
+            const y = event.clientY - rect.top - size / 2;
+            
+            ripple.style.width = ripple.style.height = size + 'px';
+            ripple.style.left = x + 'px';
+            ripple.style.top = y + 'px';
+            ripple.classList.add('ripple');
+            
+            // Add ripple styles
+            ripple.style.position = 'absolute';
+            ripple.style.borderRadius = '50%';
+            ripple.style.background = 'rgba(255, 255, 255, 0.6)';
+            ripple.style.transform = 'scale(0)';
+            ripple.style.animation = 'rippleEffect 0.6s linear';
+            ripple.style.pointerEvents = 'none';
+            
+            button.appendChild(ripple);
+            
+            setTimeout(() => {
+                ripple.remove();
+            }, 600);
+        }
+        
+        // Add ripple effect CSS
+        const rippleCSS = `
+            @keyframes rippleEffect {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+        `;
+        
+        const style = document.createElement('style');
+        style.textContent = rippleCSS;
+        document.head.appendChild(style);
+        
+        // Apply ripple effect to buttons
+        document.querySelectorAll('.hero-button, .deploy-button').forEach(button => {
+            button.addEventListener('click', createRipple);
+            button.style.position = 'relative';
+            button.style.overflow = 'hidden';
+        });
+        
+        // Navbar background on scroll
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 100) {
+                nav.style.backgroundColor = 'rgba(0, 0, 0, 0.9)';
+            } else {
+                nav.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+            }
+        });
+        
+        // Feature card click animation
+        document.querySelectorAll('.feature-card').forEach(card => {
+            card.addEventListener('click', function() {
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 150);
+            });
+        });
+        
+        // Add mouse move parallax effect
+        document.addEventListener('mousemove', (e) => {
+            const mouseX = e.clientX / window.innerWidth;
+            const mouseY = e.clientY / window.innerHeight;
+            
+            document.querySelectorAll('.floating-shape').forEach((shape, index) => {
+                const speed = (index + 1) * 0.5;
+                const x = (mouseX - 0.5) * speed;
+                const y = (mouseY - 0.5) * speed;
+                shape.style.transform = `translate(${x}px, ${y}px)`;
+            });
         });
     </script>
 </body>
