@@ -1098,6 +1098,376 @@ section {
     stroke-width: 2;
 }
 
+/* Technology & API Section */
+.tech-api {
+    padding: 100px 0;
+    background: linear-gradient(135deg, var(--dark-surface) 0%, var(--dark-bg) 100%);
+    position: relative;
+}
+
+.tech-api::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" patternUnits="userSpaceOnUse" width="100" height="100"><circle cx="25" cy="25" r="1" fill="%23ffffff" opacity="0.02"/><circle cx="75" cy="75" r="1" fill="%23ffffff" opacity="0.02"/><circle cx="50" cy="10" r="1" fill="%23ffffff" opacity="0.01"/><circle cx="10" cy="50" r="1" fill="%23ffffff" opacity="0.01"/><circle cx="90" cy="30" r="1" fill="%23ffffff" opacity="0.02"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+    pointer-events: none;
+}
+
+.tech-api-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    margin-bottom: 60px;
+}
+
+.tech-stack, .api-format {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: 40px;
+    backdrop-filter: var(--blur-glass);
+    border: 1px solid var(--border-color);
+    transition: transform var(--transition-normal);
+}
+
+.tech-stack:hover, .api-format:hover {
+    transform: translateY(-5px);
+}
+
+.tech-title, .api-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 30px;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.tech-grid {
+    display: grid;
+    gap: 20px;
+}
+
+.tech-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all var(--transition-normal);
+}
+
+.tech-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateX(5px);
+}
+
+.tech-name {
+    font-weight: 600;
+    color: var(--primary-color);
+    min-width: 80px;
+}
+
+.tech-desc {
+    color: var(--text-secondary);
+    text-align: right;
+}
+
+.api-description {
+    color: var(--text-secondary);
+    margin-bottom: 30px;
+    line-height: 1.7;
+}
+
+.api-endpoints {
+    margin-bottom: 30px;
+}
+
+.api-endpoint {
+    margin-bottom: 20px;
+}
+
+.endpoint-type {
+    display: block;
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+}
+
+.api-endpoint code, .api-custom code {
+    display: block;
+    background: rgba(0, 0, 0, 0.4);
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-family: 'JetBrains Mono', 'Fira Code', 'Monaco', 'DejaVu Sans Mono', monospace;
+    font-size: 0.85rem;
+    color: #00ff88;
+    border: 1px solid rgba(0, 255, 136, 0.2);
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.api-custom {
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color);
+}
+
+.api-custom h4 {
+    color: var(--text-primary);
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.api-custom p {
+    color: var(--text-secondary);
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+}
+
+/* Keyboard Shortcuts */
+.shortcuts-info {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: 40px;
+    backdrop-filter: var(--blur-glass);
+    border: 1px solid var(--border-color);
+    text-align: center;
+}
+
+.shortcuts-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 30px;
+    background: var(--gradient-secondary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.shortcuts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.shortcut-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all var(--transition-normal);
+}
+
+.shortcut-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+.shortcut-item kbd {
+    background: var(--gradient-primary);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+    font-size: 0.85rem;
+    min-width: 50px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 204, 255, 0.3);
+}
+
+.shortcut-item span {    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+/* Disclaimer Section */
+.disclaimer {
+    background: var(--dark-surface);
+    position: relative;
+    overflow: hidden;
+}
+
+.disclaimer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255, 60, 120, 0.05), rgba(139, 92, 246, 0.05));
+    z-index: 1;
+}
+
+.disclaimer .container {
+    position: relative;
+    z-index: 2;
+}
+
+.disclaimer-content {
+    position: relative;
+}
+
+.disclaimer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.disclaimer-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 2rem;
+    backdrop-filter: var(--blur-glass);
+    transition: all var(--transition-normal);
+    position: relative;
+    overflow: hidden;
+}
+
+.disclaimer-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--gradient-secondary);
+    transform: scaleX(0);
+    transition: transform var(--transition-normal);
+}
+
+.disclaimer-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(255, 60, 120, 0.3);
+    box-shadow: 0 20px 40px rgba(255, 60, 120, 0.1);
+}
+
+.disclaimer-card:hover::before {
+    transform: scaleX(1);
+}
+
+.disclaimer-icon {
+    width: 60px;
+    height: 60px;
+    background: var(--gradient-secondary);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+}
+
+.disclaimer-icon svg {
+    width: 28px;
+    height: 28px;
+    color: white;
+}
+
+.disclaimer-card .disclaimer-title {
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.disclaimer-card .disclaimer-text {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    font-size: 0.95rem;
+}
+
+.disclaimer-notice {
+    background: linear-gradient(135deg, rgba(0, 204, 255, 0.1), rgba(139, 92, 246, 0.1));
+    border: 1px solid rgba(0, 204, 255, 0.3);
+    border-radius: 20px;
+    padding: 2.5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.disclaimer-notice::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(0, 204, 255, 0.1) 0%, transparent 70%);
+    animation: pulse 4s ease-in-out infinite;
+}
+
+.notice-content {
+    position: relative;
+    z-index: 2;
+}
+
+.notice-title {
+    color: var(--primary-color);
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.notice-text {
+    color: var(--text-secondary);
+    line-height: 1.7;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.notice-text:last-child {
+    margin-bottom: 0;
+}
+
+/* Disclaimer Box (for about section) */
+.disclaimer-box {
+    background: linear-gradient(135deg, rgba(255, 60, 120, 0.1), rgba(139, 92, 246, 0.1));
+    border: 1px solid rgba(255, 60, 120, 0.3);
+    border-radius: 16px;
+    padding: 25px;
+    margin: 30px 0;
+}
+
+.disclaimer-title {
+    color: var(--secondary-color);
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.disclaimer-text {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 12px;
+}
+
+.disclaimer-text:last-child {
+    margin-bottom: 0;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .container {
@@ -1179,12 +1549,49 @@ section {
 
     .section-title {
         font-size: 2rem;
-    }
-
-    .features-grid {
+    }    .features-grid {
         grid-template-columns: 1fr;
         gap: 1.5rem;
-    }    .deployment-grid-docker {
+    }
+
+    /* Disclaimer Section */
+    .disclaimer-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .disclaimer-card {
+        padding: 1.5rem;
+    }
+
+    .disclaimer-icon {
+        width: 50px;
+        height: 50px;
+        margin-bottom: 1rem;
+    }
+
+    .disclaimer-icon svg {
+        width: 24px;
+        height: 24px;
+    }
+
+    .disclaimer-card .disclaimer-title {
+        font-size: 1.1rem;
+    }
+
+    .disclaimer-notice {
+        padding: 2rem 1.5rem;
+    }
+
+    .notice-title {
+        font-size: 1.25rem;
+        margin-bottom: 1rem;
+    }
+
+    .notice-text {
+        font-size: 0.9rem;
+    }.deployment-grid-docker {
         grid-template-columns: 1fr;
         gap: 1.5rem;
         margin-bottom: 2rem;
@@ -1252,6 +1659,44 @@ section {
     }    .feature-card,
     .deployment-card {
         padding: 1.5rem;
+    }
+
+    /* Disclaimer Section */
+    .disclaimer-card {
+        padding: 1.25rem;
+    }
+
+    .disclaimer-icon {
+        width: 45px;
+        height: 45px;
+        margin-bottom: 0.75rem;
+    }
+
+    .disclaimer-icon svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    .disclaimer-card .disclaimer-title {
+        font-size: 1rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .disclaimer-card .disclaimer-text {
+        font-size: 0.875rem;
+    }
+
+    .disclaimer-notice {
+        padding: 1.5rem 1rem;
+    }
+
+    .notice-title {
+        font-size: 1.125rem;
+        margin-bottom: 1rem;
+    }
+
+    .notice-text {
+        font-size: 0.875rem;
     }
 
     .deployment-card-wide .deployment-code {
