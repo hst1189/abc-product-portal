@@ -19,10 +19,8 @@ document.addEventListener('DOMContentLoaded', async function() {
     if (typeof AOS !== 'undefined') {
         AOS.init({
             duration: 800,
-            easing: 'ease-out-cubic',
-            once: true,
-            offset: 100,
-            delay: 0
+            easing: 'ease-in-out',
+            once: true
         });
     }
 });
@@ -33,7 +31,7 @@ function initParticles() {
         particlesJS('particles-js', {
             particles: {
                 number: {
-                    value: 50,
+                    value: 80,
                     density: {
                         enable: true,
                         value_area: 800
@@ -43,31 +41,15 @@ function initParticles() {
                     value: '#00ccff'
                 },
                 shape: {
-                    type: 'circle',
-                    stroke: {
-                        width: 0,
-                        color: '#000000'
-                    }
+                    type: 'circle'
                 },
                 opacity: {
-                    value: 0.3,
-                    random: true,
-                    animation: {
-                        enable: true,
-                        speed: 1,
-                        opacity_min: 0.1,
-                        sync: false
-                    }
+                    value: 0.2,
+                    random: true
                 },
                 size: {
                     value: 3,
-                    random: true,
-                    animation: {
-                        enable: true,
-                        speed: 2,
-                        size_min: 0.1,
-                        sync: false
-                    }
+                    random: true
                 },
                 line_linked: {
                     enable: true,
@@ -80,15 +62,8 @@ function initParticles() {
                     enable: true,
                     speed: 2,
                     direction: 'none',
-                    random: false,
-                    straight: false,
-                    out_mode: 'out',
-                    bounce: false,
-                    attract: {
-                        enable: false,
-                        rotateX: 600,
-                        rotateY: 1200
-                    }
+                    random: true,
+                    out_mode: 'out'
                 }
             },
             interactivity: {
@@ -96,41 +71,15 @@ function initParticles() {
                 events: {
                     onhover: {
                         enable: true,
-                        mode: 'repulse'
+                        mode: 'grab'
                     },
                     onclick: {
                         enable: true,
                         mode: 'push'
                     },
                     resize: true
-                },
-                modes: {
-                    grab: {
-                        distance: 140,
-                        line_linked: {
-                            opacity: 1
-                        }
-                    },
-                    bubble: {
-                        distance: 400,
-                        size: 40,
-                        duration: 2,
-                        opacity: 8,
-                        speed: 3
-                    },
-                    repulse: {
-                        distance: 100,
-                        duration: 0.4
-                    },
-                    push: {
-                        particles_nb: 4
-                    },
-                    remove: {
-                        particles_nb: 2
-                    }
                 }
-            },
-            retina_detect: true
+            }
         });
     }
 }
@@ -251,7 +200,7 @@ function initBackToTop() {
     
     if (backToTopButton) {
         window.addEventListener('scroll', function() {
-            if (window.scrollY > 300) {
+            if (window.scrollY > 500) {
                 backToTopButton.classList.add('visible');
             } else {
                 backToTopButton.classList.remove('visible');
@@ -506,7 +455,58 @@ if ('serviceWorker' in navigator) {
     });
 }
 
+// Copy code functionality
+document.querySelectorAll('.copy-btn').forEach(button => {
+    button.addEventListener('click', function() {
+        // Find the closest code element
+        const code = this.parentElement.querySelector('code').textContent;
+        
+        // Create a textarea element to help with copying
+        const textarea = document.createElement('textarea');
+        textarea.value = code;
+        textarea.style.position = 'fixed';  // Avoid scrolling to bottom
+        document.body.appendChild(textarea);
+        textarea.select();
+        
+        try {
+            // Execute copy command
+            document.execCommand('copy');
+            
+            // Visual feedback that copy was successful
+            this.classList.add('copied');
+            
+            // Change the SVG to a checkmark temporarily
+            const originalSVG = this.innerHTML;
+            this.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>`;
+            
+            // Revert back after 2 seconds
+            setTimeout(() => {
+                this.classList.remove('copied');
+                this.innerHTML = originalSVG;
+            }, 2000);
+        } catch (err) {
+            console.error('Failed to copy text: ', err);
+        }
+        
+        document.body.removeChild(textarea);
+    });
+});
+
 // Export functions for external use
+window.LibreTVPortal = {
+    initParticles,
+    initNavigation,
+    initScrollAnimations,
+    initCounters,
+    initBackToTop,
+    initSmoothScroll,
+    initLazyLoad,
+    debounce,
+    throttle,
+    createObserver
+};
 window.LibreTVPortal = {
     initParticles,
     initNavigation,

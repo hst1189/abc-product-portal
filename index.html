@@ -211,6 +211,12 @@
                     <h3 class="deployment-title">Docker 部署</h3>
                     <p class="deployment-description">使用Docker容器化部署，简单快捷，适合有服务器的用户。</p>                    <div class="deployment-code">
                         <code>docker run -d \<br>  --name libretv \<br>  --restart unless-stopped \<br>  -p 8899:8080 \<br>  -e PASSWORD=your_password \<br>  bestzwei/libretv:latest</code>
+                        <button class="copy-btn" title="复制代码" aria-label="复制代码">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"></path>
+                            </svg>
+                        </button>
                     </div>
                 </div>
                 <div class="deployment-card deployment-card-wide" data-aos="fade-up" data-aos-delay="400">
@@ -220,6 +226,12 @@
                     <h3 class="deployment-title">Docker Compose 部署</h3>
                     <p class="deployment-description">使用Docker Compose一键部署，配置更简单，管理更方便。</p>                    <div class="deployment-code">
                         <code>services:<br>  libretv:<br>    image: bestzwei/libretv:latest<br>    container_name: libretv<br>    ports:<br>      - "8899:8080"<br>    environment:<br>      - PASSWORD=${PASSWORD:-your_password}<br>    restart: unless-stopped</code>
+                        <button class="copy-btn" title="复制代码" aria-label="复制代码">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"></path>
+                            </svg>
+                        </button>
                     </div>
                 </div>
             </div>
