@@ -1,0 +1,16 @@
+{
+    "name": "LibreTV Portal",
+    "short_name": "LibreTV",
+    "description": "LibreTV 项目官方门户网站",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#0f1622",
+    "theme_color": "#00ccff",
+    "icons": [
+        {
+            "src": "assets/logo.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}
