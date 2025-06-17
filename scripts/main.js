@@ -1,12 +1,16 @@
 // LibreTV Portal - Main JavaScript
 
 // DOM Content Loaded
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
     // Initialize all components
     initParticles();
     initNavigation();
     initScrollAnimations();
+    
+    // Update stats with GitHub data before initializing counters
+    await updateStatsWithGitHubData();
     initCounters();
+    
     initBackToTop();
     initSmoothScroll();
     initLazyLoad();
@@ -214,6 +218,7 @@ function initCounters() {
             if (entry.isIntersecting) {
                 const counter = entry.target;
                 const target = parseInt(counter.getAttribute('data-target'));
+                const isPercentage = counter.getAttribute('data-stat') === 'uptime-rate';
                 const duration = 2000; // 2 seconds
                 const increment = target / (duration / 16); // 60fps
                 
@@ -227,7 +232,7 @@ function initCounters() {
                     
                     // Format number with commas for thousands
                     const formattedNumber = Math.floor(current).toLocaleString();
-                    counter.textContent = formattedNumber + (counter.textContent.includes('%') ? '%' : '');
+                    counter.textContent = formattedNumber + (isPercentage ? '%' : '');
                 }, 16);
                 
                 counterObserver.unobserve(counter);
@@ -304,6 +309,100 @@ function initLazyLoad() {
         img.classList.add('loading');
         imageObserver.observe(img);
     });
+}
+
+// GitHub API Data Update
+async function updateStatsWithGitHubData() {
+    try {
+        // Check if we have cached data that's still fresh (less than 10 minutes old)
+        const cacheKey = 'github_stats_cache';
+        const cacheTimeKey = 'github_stats_cache_time';
+        const cacheExpiration = 10 * 60 * 1000; // 10 minutes in milliseconds
+        
+        const cachedData = localStorage.getItem(cacheKey);
+        const cacheTime = localStorage.getItem(cacheTimeKey);
+        
+        if (cachedData && cacheTime && 
+            (Date.now() - parseInt(cacheTime)) < cacheExpiration) {
+            // Use cached data
+            const stats = JSON.parse(cachedData);
+            updateStatsFromData(stats);
+            console.log('Using cached GitHub stats');
+            return;
+        }
+        
+        // GitHub API endpoint for repository information
+        const repoUrl = 'https://api.github.com/repos/LibreSpark/LibreTV';
+        const contributorsUrl = 'https://api.github.com/repos/LibreSpark/LibreTV/contributors';
+        
+        // Fetch repository data with timeout
+        const fetchWithTimeout = (url, timeout = 5000) => {
+            return Promise.race([
+                fetch(url),
+                new Promise((_, reject) =>
+                    setTimeout(() => reject(new Error('Request timeout')), timeout)
+                )
+            ]);
+        };
+        
+        const [repoResponse, contributorsResponse] = await Promise.all([
+            fetchWithTimeout(repoUrl),
+            fetchWithTimeout(contributorsUrl)
+        ]);
+        
+        if (repoResponse.ok && contributorsResponse.ok) {
+            const repoData = await repoResponse.json();
+            const contributorsData = await contributorsResponse.json();
+            
+            const stats = {
+                forks: repoData.forks_count || 100,
+                stars: repoData.stargazers_count || 500,
+                contributors: contributorsData.length || 20,
+                uptime: 99
+            };
+            
+            // Cache the data
+            localStorage.setItem(cacheKey, JSON.stringify(stats));
+            localStorage.setItem(cacheTimeKey, Date.now().toString());
+            
+            updateStatsFromData(stats);
+            console.log('GitHub stats updated successfully:', stats);
+        } else {
+            console.warn('Failed to fetch GitHub data, using fallback values');
+            setFallbackStats();
+        }
+    } catch (error) {
+        console.warn('Error fetching GitHub data:', error.message);
+        setFallbackStats();
+    }
+}
+
+// Update stats from data object
+function updateStatsFromData(stats) {
+    updateStatElement('fork-count', stats.forks);
+    updateStatElement('star-count', stats.stars);
+    updateStatElement('contributor-count', stats.contributors);
+    updateStatElement('uptime-rate', stats.uptime);
+}
+
+// Update individual stat element
+function updateStatElement(id, value) {
+    const elements = document.querySelectorAll(`[data-stat="${id}"]`);
+    elements.forEach(element => {
+        element.setAttribute('data-target', value);
+        // Don't set the text content here, let the counter animation handle it
+    });
+}
+
+// Set fallback stats if GitHub API fails
+function setFallbackStats() {
+    const fallbackStats = {
+        forks: 100,
+        stars: 500,
+        contributors: 20,
+        uptime: 99
+    };
+    updateStatsFromData(fallbackStats);
 }
 
 // Utility functions
